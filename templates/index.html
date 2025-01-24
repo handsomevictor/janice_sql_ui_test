@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database UI</title>
+</head>
+<body>
+    <h1>Database Content</h1>
+
+    <h2>Customers</h2>
+    <table border="1">
+        <tr><th>Customer ID</th><th>Name</th><th>Email</th></tr>
+        {% for customer in customers %}
+        <tr>
+            <td>{{ customer.customer_id }}</td>
+            <td>{{ customer.name }}</td>
+            <td>{{ customer.email }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Orders</h2>
+    <table border="1">
+        <tr><th>Order ID</th><th>Customer ID</th><th>Order Date</th></tr>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.order_id }}</td>
+            <td>{{ order.customer_id }}</td>
+            <td>{{ order.order_date }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Order Items</h2>
+    <table border="1">
+        <tr><th>Item ID</th><th>Order ID</th><th>Product Name</th><th>Quantity</th></tr>
+        {% for item in order_items %}
+        <tr>
+            <td>{{ item.item_id }}</td>
+            <td>{{ item.order_id }}</td>
+            <td>{{ item.product_name }}</td>
+            <td>{{ item.quantity }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Execute SQL</h2>
+    <form action="{{ url_for('execute_sql') }}" method="POST">
+        <textarea name="sql_query" rows="4" cols="50"></textarea><br>
+        <button type="submit">Execute</button>
+    </form>
+
+    <h2>Insert Data</h2>
+    <form action="{{ url_for('insert_data') }}" method="POST">
+        <label for="table">Table:</label>
+        <select name="table" id="table">
+            <option value="customers">Customers</option>
+            <option value="orders">Orders</option>
+            <option value="order_items">Order Items</option>
+        </select><br>
+        <label for="values">Values (comma separated):</label>
+        <input type="text" name="values" required><br>
+        <button type="submit">Insert</button>
+    </form>
+
+    {% if result %}
+    <h2>SQL Query Result</h2>
+    <pre>{{ result }}</pre>
+    {% endif %}
+</body>
+</html>
