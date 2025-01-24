@@ -66,7 +66,28 @@
 
     {% if result %}
     <h2>SQL Query Result</h2>
-    <pre>{{ result }}</pre>
+    {% if result is string %}
+        <pre>{{ result }}</pre>
+    {% else %}
+        <table border="1">
+            <thead>
+                <tr>
+                    {% for column in result[0].keys() %}
+                    <th>{{ column }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in result %}
+                <tr>
+                    {% for value in row.values() %}
+                    <td>{{ value }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
     {% endif %}
 </body>
 </html>
